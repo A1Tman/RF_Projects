@@ -2,10 +2,9 @@ import bitstring
 from time import sleep
 import rflib
 
-# That prefix string. This was determined by literally
+# This was determined by literally
 # just looking at the waveform, and calculating it relative
 # to the clock signal value.
-# Your remote may not need this.
 prefix = ''
 
 # The key from our static key remote.
@@ -24,14 +23,14 @@ print(bitstring.BitArray(bin=full_pwm).tobytes())
 print("Byte string: ",rf_data)
 print("PWM Key: ",pwm_key)
 
-# Start up RfCat
+# Start RfCat
 d = rflib.RfCat()
 
 # Set Modulation. We using On-Off Keying here
 d.setMdmModulation(rflib.MOD_ASK_OOK)
 
 # Configure the radio
-d.makePktFLEN(16) 	# Set the RFData packet length
+d.makePktFLEN(16) 	    # Set the RFData packet length
 d.setMdmDRate(2500)     # Set the Baud Rate
 d.setMdmSyncMode(0)     # Disable preamble
 d.setFreq(433916000)    # Set the frequency
