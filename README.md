@@ -41,6 +41,16 @@ This process involves several tools, including GNU Radio Companion, HDSDR, Audac
 
 ## Step-by-Step Guide
 
+## Installation
+
+Before running the scripts, ensure you have all the necessary Python libraries and RfCat installed. You can install them using the provided script.
+
+### Installation script:
+
+```bash
+chmod +x install_requirements.sh
+```
+
 ### Step 1: Identify the Remote Control Frequency
 
 1. **Locate the FCC ID**:
