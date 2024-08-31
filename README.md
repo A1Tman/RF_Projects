@@ -156,9 +156,9 @@ chmod +x install_requirements.sh
    import bitstring
    import time
    
-   print("Welcome to the end")
+   print("Welcome")
    
-   # Prefix dersom enheten har det
+   # Prefix if present
    prefix = ''
    
    # Device's (static) binary key
@@ -176,7 +176,7 @@ chmod +x install_requirements.sh
    # Convert data to hex
    rf_data = bitstring.BitArray(bin=full_pwm).tobytes()
    
-   # Starter RfCat
+   # Start RfCat
    d = rflib.RfCat()
    
    # Set Modulation, in this case On-Off Keying
