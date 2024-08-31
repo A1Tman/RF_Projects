@@ -26,7 +26,7 @@ print("PWM Key: ",pwm_key)
 # Start RfCat
 d = rflib.RfCat()
 
-# Set Modulation. We using On-Off Keying here
+# Set Modulation. We're using On-Off Keying here
 d.setMdmModulation(rflib.MOD_ASK_OOK)
 
 # Configure the radio
