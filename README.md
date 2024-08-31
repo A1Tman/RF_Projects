@@ -45,6 +45,11 @@ This process involves several tools, including GNU Radio Companion, HDSDR, Audac
 
 Before running the scripts, ensure you have all the necessary Python libraries and RfCat installed. You can install them using the provided script.
 
+### Clone the repository
+```
+git clone https://github.com/A1Tman/RF_Projects
+```
+
 ### Installation script:
 
 ```bash
