@@ -140,15 +140,6 @@ chmod +x install_requirements.sh
 
 3. **Test**:
    - Test the transmission by attempting to control your device. Adjust the timing and repetition as needed to achieve reliable control.
-     - Example of integration with OpenHab:
-     ```xtend
-     rule "Windows"
-        when
-            Item Sonte_on received command
-        then
-            executeCommandLine("python3 /var/lib/openhab2/shellscripts/sonteremote.py")
-     end
-   
    - Once you have generated the full PWM key, you can use the following Python script to transmit the signal using RfCat and the YardStick One:
     ```python
    #sonteremote.py
