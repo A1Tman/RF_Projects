@@ -8,11 +8,13 @@ Integrating remote controlled devices into a smart home system using SDR
 - [Prerequisites](#prerequisites)
 - [Step-by-Step Guide](#step-by-step-guide)
   - [Step 1: Identify the Remote Control Frequency](#step-1-identify-the-remote-control-frequency)
-  - [Step 2: Capture the Signal with SDR](#step-2-capture-the-signal-with-sdr)
+  - [Step 2: Capture the Signal with an SDR](#step-2-capture-the-signal-with-an-sdr)
   - [Step 3: Analyze and Clean the Signal](#step-3-analyze-and-clean-the-signal)
   - [Step 4: Decode the Signal](#step-4-decode-the-signal)
   - [Step 5: Prepare Signal for Transmission](#step-5-prepare-signal-for-transmission)
   - [Step 6: Transmit the Signal](#step-6-transmit-the-signal)
+  - [Step 7: Integrate with OpenHAB](#step-7-integrate-with-openhab)
+  - [Step 8: Integrate with Home Assistant](#step-8-integrate-with-home-assistant)
 - [Troubleshooting](#troubleshooting)
 - [Safety Considerations](#safety-considerations)
 - [Further Reading](#further-reading)
@@ -28,7 +30,7 @@ This process involves several tools, including GNU Radio Companion, HDSDR, Audac
 ## Prerequisites
 
 - **Hardware**:
-  - YardStick One SDR device (used for both capturing and transmitting RF signals)
+  - YardStick One or other SDR device (used for both capturing and transmitting RF signals)
 - **Software**:
   - GNU Radio Companion and associated SDR software
   - HDSDR
@@ -46,12 +48,11 @@ This process involves several tools, including GNU Radio Companion, HDSDR, Audac
 Before running the scripts, ensure you have all the necessary Python libraries and RfCat installed. You can install them using the provided script.
 
 ### Clone the repository
-```
+```bash
 git clone https://github.com/A1Tman/RF_Projects
 ```
 
 ### Installation script:
-
 ```bash
 chmod +x install_requirements.sh
 ```
@@ -65,13 +66,12 @@ chmod +x install_requirements.sh
 2. **Note the Frequency**:
    - Record the frequency range specified in the FCC documentation. This is the frequency you'll need to capture using your SDR.
 
-### Step 2: Capture the Signal with SDR
+### Step 2: Capture the Signal with an SDR
 
-1. **Setup SDR and Software**:
+1. **Setup the SDR and Software**:
    - Connect your SDR device to your computer and launch GNU Radio Companion or HDSDR.
    - Configure the software to listen on the frequency you obtained from the FCC database.
    <img src="images/figure001.png" alt="Figure 1. HDSDR setup." style="max-width: 800px; width: 100%; height: auto;">
-
 
 
 2. **Capture the Signal**:
@@ -194,7 +194,67 @@ chmod +x install_requirements.sh
    
    # Set the unit to IDLE
    d.setModeIDLE()
-## Prerequisites
+
+## Step 7: Integrate with OpenHAB
+To integrate the Python script that mimics a button press and sends a signal via the SDR (YardStick One) into OpenHAB:
+
+ 1. Install the Exec Binding:
+    - Open OpenHAB's Paper UI.
+    - Navigate to Add-ons > Bindings.
+    - Search for Exec and click Install.
+    - Create an Exec Thing:
+ 2. Create a new Thing in OpenHAB to run your Python script.<br> Example '.things' configuration:
+  ```
+  Thing exec:command:remotepress [command="/usr/bin/python3 /path/to/your/script.py", interval=0, timeout=5]
+  ```
+ 3. Create an Item:
+     - Link an Item to the Thing created above. This Item will trigger the script.
+   <br>Example '.items' configuration:
+   ```xtend
+   Switch RemotePress "Remote Press" {channel="exec:command:remotepress:run"}
+   ```
+4. Add to Sitemap:
+   - Add the Item to your sitemap so it can be controlled via the OpenHAB UI.
+   <br>Example .sitemap configuration:
+   ```xtend
+   sitemap demo label="Main Menu"
+   {
+       Switch item=RemotePress label="Press Remote Button"
+   }
+5. Control via HABPanel or OpenHAB App:
+   - You can now control the remote button press via the OpenHAB app or HABPanel interface.
+
+## Step 8: Integrate with Home Assistant
+
+#### 1.<b> Define a shell command.</b>
+- Add a shell_command to your configuration.yaml that will run your Python script.
+<br>Example 'configuration.yaml' configuration:
+  ```yaml
+  shell command:
+   press_remote_button: python3 /path/to/your/script.py
+  ```
+  
+#### 2.<b> Create a Script:</b>
+- Create a script that will call the shell_command defined above.<br>Example 'scripts.yaml' configuration:
+  ```yaml
+   press_remote:
+     alias: "Press Remote Button"
+     sequence:
+       - service: shell_command.press_remote_button
+   ```
+#### 3. Add to Lovelace UI:
+- Add a button to your Lovelace UI that triggers the script. <br>Example 'ui-lovelace.yaml' configuration:
+
+   ```yaml
+   type: entity-button
+   entity: script.press_remote
+   name: "Press Remote Button"
+   ``` 
+
+#### 4. Control via Home Assistant UI:
+ - You can now trigger the remote button press via the Home Assistant interface.
+
+## Troubleshooting
 
 If you encounter issues during the process, try the following:
 
@@ -213,7 +273,7 @@ If you encounter issues during the process, try the following:
 
 - [Software-Defined Radio for Engineers](https://www.analog.com/en/education/education-library/software-defined-radio-for-engineers.html)
 - [GNU Radio Tutorials](https://wiki.gnuradio.org/index.php/Tutorials)
-- [Introduction to SDR and RTL-SDR](https://www.rtl-sdr.com/rtl-sdr-tutorial-analyzing-unknown-signals/)
+- [Introduction to SDR and RTL-SDR](https://www.rtl-sdr.com/unknown-signal-reverse-engineering-and-decoding-afsk-signals-tutorial/)
 
 ## Contributing
 
