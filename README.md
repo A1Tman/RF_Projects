@@ -196,21 +196,21 @@ To integrate the Python script that mimics a button press and sends a signal via
 
 #### 2. Create a new Thing in OpenHAB to run your Python script.
 - Example '.things' configuration:
-   ```
+   ```openhab
    Thing exec:command:remotepress [command="/usr/bin/python3 /path/to/your/script.py", interval=0, timeout=5]
    ```
 
 #### 3. Create an Item:
 - Link an Item to the Thing created above. This Item will trigger the script.
 - Example '.items' configuration:
-   ```xtend
+   ```openhab
    Switch RemotePress "Remote Press" {channel="exec:command:remotepress:run"}
    ```
 
 #### 4. Add to Sitemap:
 - Add the Item to your sitemap so it can be controlled via the OpenHAB UI.
 - Example '.sitemap' configuration:
-   ```xtend
+   ```openhab
    sitemap demo label="Main Menu"
    {
        Switch item=RemotePress label="Press Remote Button"
