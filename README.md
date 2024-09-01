@@ -198,31 +198,35 @@ chmod +x install_requirements.sh
 ## Step 7: Integrate with OpenHAB
 To integrate the Python script that mimics a button press and sends a signal via the SDR (YardStick One) into OpenHAB:
 
- 1. Install the Exec Binding:
-    - Open OpenHAB's Paper UI.
-    - Navigate to Add-ons > Bindings.
-    - Search for Exec and click Install.
-    - Create an Exec Thing:
- 2. Create a new Thing in OpenHAB to run your Python script.<br> Example '.things' configuration:
-  ```
-  Thing exec:command:remotepress [command="/usr/bin/python3 /path/to/your/script.py", interval=0, timeout=5]
-  ```
- 3. Create an Item:
-     - Link an Item to the Thing created above. This Item will trigger the script.
-   <br>Example '.items' configuration:
+#### 1. Install the Exec Binding:
+- Open OpenHAB's Paper UI.
+- Navigate to Add-ons > Bindings.
+- Search for Exec and click Install.
+
+#### 2. Create a new Thing in OpenHAB to run your Python script.
+- Example '.things' configuration:
+   ```
+   Thing exec:command:remotepress [command="/usr/bin/python3 /path/to/your/script.py", interval=0, timeout=5]
+   ```
+
+#### 3. Create an Item:
+- Link an Item to the Thing created above. This Item will trigger the script.
+- Example '.items' configuration:
    ```xtend
    Switch RemotePress "Remote Press" {channel="exec:command:remotepress:run"}
    ```
-4. Add to Sitemap:
-   - Add the Item to your sitemap so it can be controlled via the OpenHAB UI.
-   <br>Example .sitemap configuration:
+
+#### 4. Add to Sitemap:
+- Add the Item to your sitemap so it can be controlled via the OpenHAB UI.
+- Example '.sitemap' configuration:
    ```xtend
    sitemap demo label="Main Menu"
    {
        Switch item=RemotePress label="Press Remote Button"
    }
-5. Control via HABPanel or OpenHAB App:
-   - You can now control the remote button press via the OpenHAB app or HABPanel interface.
+
+#### 5. Control via HABPanel or OpenHAB App:
+- You can now control the remote button press via the OpenHAB app or HABPanel interface.
 
 ## Step 8: Integrate with Home Assistant
 
