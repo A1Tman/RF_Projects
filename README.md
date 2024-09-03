@@ -31,6 +31,7 @@ This process involves several tools, including GNU Radio Companion, HDSDR, Audac
 
 - **Hardware**:
   - YardStick One or other SDR device (used for both capturing and transmitting RF signals)
+  - Raspberry Pi
 - **Software**:
   - GNU Radio Companion and associated SDR software
   - HDSDR
